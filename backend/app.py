@@ -5,7 +5,7 @@ import re
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'login'
@@ -109,6 +109,36 @@ def post_data():
             'mensaje': mensaje,
             'registro': registroExitoso
         }}), code_request
+
+#----------------------------- Listar mascotas -----------------------------------------------------
+"""
+@app.route('/admin', methods=['POST'])
+def listar_mascotas():
+    id = request.json.get('id')
+    nombre = request.json.get('nombre')
+    edad = request.json.get('edad')
+    descripcion = request.json.get('descripcion')
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM mascotas")
+    datos = cursor.fetchall()
+    mascotas = []
+    for fila in datos:
+        mascota = {'id': fila[0], 'nombre': fila[1], 'edad': fila[2], 'descripcion': fila[3]}
+        mascotas.append(mascota)
+    return jsonify({'mascotas': mascotas, 'mensaje': "Mascotas listadas."})
+"""
+@app.route('/admin', methods=['POST'])
+def admin():
+    cursor = MySQL.connection.cursor()
+    cursor.execute("SELECT * FROM mascotas")
+    datos = cursor.fetchall()
+    # Convertir los datos a diccionario
+    mascotas = []
+    fila = [column[0] for column in cursor.description]
+    for fila in datos:
+        mascota = {'id': fila[0], 'nombre': fila[1], 'edad': fila[2], 'descripcion': fila[3]}
+        mascotas.append(mascota)
+    cursor.close()
          
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,141 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #0A2336;
+    padding: 20px 0;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 24px;
+    color: whitesmoke;
+}
+
+.perros, .gatos {
+    padding: 20px;
+}
+
+.perros h2, .gatos h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.galeria {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.perro, .gato {
+    width: 300px;
+    margin: 10px;
+    text-align: center;
+}
+
+.perro img, .gato img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.perro p, .gato p {
+    line-height: 1.5;
+}
+
+.perro a, .gato a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0A2336;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: #0A2336;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+    color: whitesmoke;
+}
+
+/* Formularios */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    display: block;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Mensajes de error */
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Posicionamiento absoluto */
+    z-index: 1; /* Sobreponer otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    overflow: auto; /* Permitir scroll si el contenido es más alto */
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semitransparente */
+}
+
+/* Modal visible */
+.modal.active {
+    display: block;
+}
+
+/* Contenido del modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Posicionar en el centro */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ancho del contenido */
+}
+
+img {
+    margin: auto;
+    cursor: pointer;
+    transition: 2ms;
+}
+
+img:hover {
+    transform: scale(1.1);
+    transition: 2ms;
+}
