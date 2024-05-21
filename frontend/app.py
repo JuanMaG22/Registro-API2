@@ -23,6 +23,10 @@ def home():
 def admin():
     return render_template('admin.html')   
 
+@app.route('/gato')
+def despues():
+    return render_template('adoptar.html')
+
 @app.route('/acceso-login', methods=['POST'])
 def login():
     # Recolectando información del formulario de login por via POST

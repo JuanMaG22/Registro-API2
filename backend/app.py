@@ -21,23 +21,21 @@ def get_data():
     # Recibir la informacion que se envio desde la ruta '/acceso-login' (Front-End)
     email = request.json.get('email')
     password = request.json.get('password')
-    pwd = password.encode('utf-8')
-    # pwd = password.encode('utf-8')
-    # salt = bcrypt.gensalt()
-    # password_encriptada = bcrypt.hashpw(pwd, salt)
-    # salt = bcrypt.gensalt()
-    # encript = bcrypt.hashpw(password_encriptada,sal)
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM usuarios WHERE correo = %s AND password = %s', (email, password))
+    cur.execute(f"SELECT * FROM usuarios WHERE correo = '{email}'")
     account = cur.fetchone()
+    cur.close()
+    password_verify = ''
+    if account:
+        password_verify = bcrypt.checkpw(password.encode('utf-8'), account['password'].encode('utf-8'))
     ###
     sending_data = {}
     code_request = 0
-    status_request = ''
+    status_request = 'unauthorized'
 
     #if bcrypt.checkpw(password,pwd):
     
-    if account:
+    if password_verify: 
         code_request = 200
         status_request = 'success'
 
@@ -72,8 +70,8 @@ def post_data():
         email = request.json.get('email')
         password = request.json.get('password')
         # pwd = password.encode('utf-8')
-        # salt = bcrypt.gensalt()
-        # password_encriptada = bcrypt.hashpw(pwd, salt)
+        salt = bcrypt.gensalt()
+        password_encriptada = bcrypt.hashpw(password.encode('utf-8'),salt)
         nombre = request.json.get('nombre')
         apellido = request.json.get('apellido')
         fecha_nacimiento = request.json.get('fecha_nacimiento')
@@ -96,7 +94,7 @@ def post_data():
                     #Realizar la insercion a la base de datos 
                     cur = mysql.connection.cursor()
                     cur.execute("INSERT INTO usuarios (correo, password, nombre, apellido, fecha_nacimiento, id_rol) VALUES (%s, %s, %s, %s, %s, '2')",
-                                    (email, password, nombre, apellido, fecha_nacimiento))
+                                    (email, password_encriptada.decode('utf-8'), nombre, apellido, fecha_nacimiento))
                     mysql.connection.commit()
                     cur.close()
                 else:
