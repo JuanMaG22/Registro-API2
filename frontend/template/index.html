@@ -4,7 +4,7 @@
     <form class="form-control" id="login_form" action="acceso-login" method="post">
         <!---alertas-->
           <!----------->
-        <h1 class="text-center t">Login</h1>
+        <h1 class="text-center t">Ingreso</h1>
         {% if mensaje %}
         <div class="alert alert-danger" role="alert">
             {{ mensaje}}
@@ -24,7 +24,7 @@
   </div> <br>
   <div class="form-group">
     <label for="exampleInputPassword1 " class="t text-center">Contraseña</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ingrese su Contraseña" name="txtPassword" required>
+    <input type="password" class="form-control" id="exampleInputPassword1" maxlength="8" placeholder="Ingrese su Contraseña" name="txtPassword" required>
     <i class='bx bx-show-alt' ></i>
   </div>
   <script>

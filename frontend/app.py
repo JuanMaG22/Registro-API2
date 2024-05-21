@@ -50,19 +50,29 @@ def login():
         return render_template('index.html', mensaje = 'Usuario O Contraseña Incorrectas')  
 
 #Registro
-#@app.route('/registro')
-#def registro():
- #   return render_template('registro.html')  
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')  
 
-#@app.route('/crear-registro', methods= ["GET", "POST"])
-#def crear_registro(): 
+@app.route('/crear-registro', methods= ["GET", "POST"])
+def crear_registro():
 
     # Recolectando información del formulario de login por via POST
- #       correo = request.form['txtCorreo']
-  #      password = request.form['txtPassword']
-   #     nombre = request.form['txtNombre']
-    #    apellido = request.form['txtApellido']
-     #   fecha_nacimiento = request.form['txtFecha']
+    _email = request.form['txtCorreo']
+    _password = request.form['txtPassword']
+    _nombre = request.form['txtNombre']
+    _apellido = request.form['txtApellido']
+    _fecha_nacimiento = request.form['txtFecha']
+
+ # Mandando informacion a la api con la ruta '/login' ubicada en 'backend/app.py'
+    response = requests.post('http://127.0.0.1:5000/registro', json={"email": _email, "password": _password, "nombre": _nombre, 
+                                                                  "apellido": _apellido, "fecha_nacimiento": _fecha_nacimiento})
+    # Recibiendo la respuesta de la api
+    data = response.json()['data']
+    if data['registro']:
+        return render_template("index.html",mensaje2= data['mensaje'])
+    else:
+        return render_template("registro.html", mensaje= data['mensaje'] )
 
 
 # ACCESO---LOGIN
@@ -93,38 +103,38 @@ def login():
 """
 
 #registro---
-@app.route('/registro')
-def registro():
-    return render_template('registro.html')  
+# @app.route('/registro')
+# def registro():
+#     return render_template('registro.html')  
 
-@app.route('/crear-registro', methods= ["GET", "POST"])
-def crear_registro(): 
+# @app.route('/crear-registro', methods= ["GET", "POST"])
+# def crear_registro(): 
     
-    if request.method == 'POST':
-        correo = request.form['txtCorreo']
-        password = request.form['txtPassword']
-        nombre = request.form['txtNombre']
-        apellido = request.form['txtApellido']
-        fecha_nacimiento = request.form['txtFecha']
+#     if request.method == 'POST':
+#         correo = request.form['txtCorreo']
+#         password = request.form['txtPassword']
+#         nombre = request.form['txtNombre']
+#         apellido = request.form['txtApellido']
+#         fecha_nacimiento = request.form['txtFecha']
 
-        # Expresión regular para verificar si la contraseña contiene al menos un carácter especial
-        if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
-            if len(password) <= 8:
-                # Realizar la inserción en la base de datos
-                cur = mysql.connection.cursor()
-                cur.execute("INSERT INTO usuarios (correo, password, nombre, apellido, fecha_nacimiento, id_rol) VALUES (%s, %s, %s, %s, %s, '2')",
-                            (correo, password, nombre, apellido, fecha_nacimiento))
-                mysql.connection.commit()
-                cur.close()
+#         # Expresión regular para verificar si la contraseña contiene al menos un carácter especial
+#         if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
+#             if len(password) <= 8:
+#                 # Realizar la inserción en la base de datos
+#                 cur = mysql.connection.cursor()
+#                 cur.execute("INSERT INTO usuarios (correo, password, nombre, apellido, fecha_nacimiento, id_rol) VALUES (%s, %s, %s, %s, %s, '2')",
+#                             (correo, password, nombre, apellido, fecha_nacimiento))
+#                 mysql.connection.commit()
+#                 cur.close()
 
-                return render_template("index.html", mensaje2="Usuario Registrado Exitosamente")
-            else:
-                return render_template("registro.html", mensaje="La contraseña no debe exceder los 8 caracteres")
-        else:
-            return render_template("registro.html", mensaje="La contraseña debe contener un caracter especial")
+#                 return render_template("index.html", mensaje2="Usuario Registrado Exitosamente")
+#             else:
+#                 return render_template("registro.html", mensaje="La contraseña no debe exceder los 8 caracteres")
+#         else:
+#             return render_template("registro.html", mensaje="La contraseña debe contener un caracter especial")
     
-    return render_template("index.html",mensaje2="Usuario Registrado Exitosamente")
-#--------------------------------------------------
+#     return render_template("index.html",mensaje2="Usuario Registrado Exitosamente")
+# #--------------------------------------------------
 
 
 if __name__=='__main__':
