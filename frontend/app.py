@@ -21,7 +21,19 @@ def home():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')  
+    # Recolectando información del formulario de mascotas por vía POST
+    _id = request.json.get['txtId']
+    _nombre = request.json.get['txtNombre']
+    _edad = request.json.get['txtEdad']
+    _descripcion = request.json.get['txtDescripcion']
+
+    # Enviar datos a la API en formato JSON
+    response = requests.post('http://127.0.0.1:5000/admin', json={"id": _id, "nombre": _nombre, "edad": _edad, "descripcion": _descripcion})
+
+    # Recibiendo la respuesta de la API
+    datos = response.json()['datos']
+    if datos['mascotas']:
+        return render_template("admin.html")  
  
 @app.route('/adoptar')
 def adoptar():
